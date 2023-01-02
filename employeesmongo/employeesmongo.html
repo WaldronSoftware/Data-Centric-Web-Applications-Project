@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employees Mongo</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body onload = "getEmployees()">
+    <div>
+        <h1>Employees Mongo</h1>
+    </div>
+    <br>
+    <a href="employeemongo/add">Add Employee (MongoDB)</a>
+    <br>
+    <br>
+    <div>
+        <table id="employee-table">
+            <thead>
+                <tr>
+                    <th>_id</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                  </tr>
+            </thead>
+            <tbody>
+               
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <a href="/">Home</a>
+    <script>
+        function getEmployees(){
+            var requestOptions = {
+                method: 'GET',
+                redirect: 'follow'
+            };
+
+            fetch("http://localhost:3000/getEmployeesMongo", requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                parsedResult = JSON.parse(result)
+
+                for (let i = 0; i < parsedResult.Employees.length; i++) {
+                    document.getElementById("employee-table").innerHTML+= "<tr><td>"+parsedResult.Employees[i]._id+"</td><td>"+parsedResult.Employees[i].phone+"</td><td>"+parsedResult.Employees[i].email+"</td></tr>"
+                };
+            })
+            .catch(error => console.log('error', error));
+        }
+    </script>
+</body>
+</html>
